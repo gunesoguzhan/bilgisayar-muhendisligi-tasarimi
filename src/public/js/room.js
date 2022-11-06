@@ -27,7 +27,7 @@ const createAudioMedia = async () => await navigator.mediaDevices.getUserMedia(c
 (async () => {
     audioStream = await createAudioMedia();
     videoStream = await createVideoMedia();
-    combinedStream = new MediaStream([...videoStream.getVideoTracks(), ...audioStream.getAudioTracks()])
+    combinedStream = new MediaStream([...videoStream.getVideoTracks(), ...audioStream.getAudioTracks()]);
     video.srcObject = combinedStream;
 })();
 
@@ -38,12 +38,12 @@ btnCam.addEventListener('click', async () => {
             await combinedStream.removeTrack(e);
         });
         camEnabled = false;
-        btnCam.innerHTML = 'Cam on'
+        btnCam.innerHTML = 'Cam on';
     } else {
         videoStream = await createVideoMedia();
         videoStream.getTracks().forEach(async (el) => { await combinedStream.addTrack(el) });
         camEnabled = true;
-        btnCam.innerHTML = 'Cam off'
+        btnCam.innerHTML = 'Cam off';
     }
 });
 
@@ -54,11 +54,11 @@ btnMic.addEventListener('click', async () => {
             combinedStream.removeTrack(e);
         });
         micEnabled = false;
-        btnMic.innerHTML = "Mic on";
+        btnMic.innerHTML = 'Mic on';
     } else {
         audioStream = await createAudioMedia();
         audioStream.getTracks().forEach(el => { combinedStream.addTrack(el) });
         micEnabled = true;
-        btnMic.innerHTML = "Mic off";
+        btnMic.innerHTML = 'Mic off';
     }
 })
