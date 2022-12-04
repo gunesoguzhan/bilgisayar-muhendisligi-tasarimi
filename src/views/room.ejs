@@ -7,14 +7,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/room.css">
+    <link rel="stylesheet" href="css/chat.css">
+    <link rel="stylesheet" href="css/video.css">
+    <link rel="stylesheet" href="css/control.css">
     <script src="js/adapter.js"></script>
 </head>
 
 <body>
-    <video autoplay></video>
-    <button id="btnCam">Cam off</button>
-    <button id="btnMic">Mic off</button>
+    <main id="container">
+        <div id="remote-video-section">
+            <div id="remote-video-container">
+            </div>
+        </div>
+        <div id="controls">
+            <div id="controls-container">
+                <div id="participants"></div>
+                <div id="local-video">
+                    <video autoplay muted></video>
+                </div>
+                <div id="local-video-controls">
+                    <div id="button-group">
+                        <button id="microphone-button" class="control-button">
+                        </button>
+                        <button id="camera-button" class="control-button"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="chat-section">
+            <div id="chat-container">
+                <div id="chat-panel">
+                    <ul>
+                    </ul>
+                </div>
+                <div id="chat-controls">
+                    <form>
+                        <input type="text" id="message-input" placeholder="Type your message here.">
+                        <button type="submit">></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
 </body>
 <script src="js/room.js"></script>
+<script src="js/chat.js"></script>
+<script src="js/video.js"></script>
+<script src="js/control.js"></script>
 
 </html>

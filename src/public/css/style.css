@@ -1,0 +1,206 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+#container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    width: 100vw;
+}
+
+#remote-video-section {
+    flex: 2 150px;
+}
+
+#remote-video-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background-color: #1e2029;
+}
+
+#controls {
+    flex: 1;
+    background-color: #191b22;
+}
+
+#controls-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+#participants {
+    flex: 4;
+    width: 100%;
+    height: 100px;
+    background-color: #1e2029;
+}
+
+#local-video {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    background-color: #191b22;
+}
+
+#local-video-controls {
+    flex-basis: 50px;
+    width: 100%;
+    height: 100%;
+}
+
+.control-button {
+    padding: 20px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: none;
+    border-radius: 5px;
+    background-color: transparent;
+    transition: 0.3s ease;
+}
+
+.control-button:hover {
+    transition: 0.3s ease;
+    background-color: teal;
+}
+
+#button-group {
+    display: inline-block;
+    margin: auto;
+    display: table;
+}
+
+#microphone-button {
+    background-image: url('../img/unmute.png');
+    margin-right: 20px;
+}
+
+#camera-button {
+    background-image: url('../img/camera-on.png');
+}
+
+#chat-section {
+    background-color: #272b36;
+    flex-basis: 400px;
+}
+
+#chat-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#chat-panel {
+    flex: 1;
+}
+
+#chat-controls {
+    flex-basis: 80px;
+    padding: 20px;
+}
+
+#chat-controls>form>input {
+    padding: 10px;
+    width: 300px;
+    border-radius: 5px;
+    border: 0;
+    background-color: #f1f2f5;
+}
+
+#chat-controls>form>button {
+    padding: 10px 19px;
+    border-radius: 5px;
+    border: 0;
+    background-color: #a4a9bd;
+    transition: 0.3s ease;
+}
+
+#chat-controls>form>button:hover {
+    background-color: #191b22;
+    color: #a4a9bd;
+    transition: 0.3s ease;
+
+}
+
+#chat-panel {
+    padding: 20px;
+    overflow-y: scroll;
+}
+
+#chat-panel>ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.message-li {
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    overflow-wrap: break-word;
+    max-width: 250px;
+}
+
+.my-message-li {
+    background-color: #f1f2f5;
+    align-self: flex-end;
+}
+
+.peer-message-li {
+    background-color: #a4a9bd;
+    font-display: block;
+    align-self: flex-start;
+}
+
+.message-details-p {
+    font-size: 11px;
+    text-align: right;
+}
+
+@media only screen and (max-width: 1025px) {
+    #chat-section {
+        display: none;
+    }
+
+    #controls {
+        flex: 2;
+    }
+
+    #microphone-button {
+        margin-right: 10px;
+    }
+
+    #camera-button {
+        margin-right: 10px;
+    }
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #16213E;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #8BBCCC;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #8bbccc9f;
+}
