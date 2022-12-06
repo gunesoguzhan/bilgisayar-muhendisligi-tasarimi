@@ -3,6 +3,21 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
+    overflow: hidden;
+}
+
+:root {
+    --d1: #13151b;
+    --d2: #171920;
+    --d3: #1b1e25;
+    --d4: #1f222b;
+    --d5: #232630;
+    --n: #272b36;
+    --l5: #4a5166;
+    --l4: #6d7896;
+    --l3: #9ea5b9;
+    --l2: #ced2dc;
+    --l1: #f0f2f4;
 }
 
 #container {
@@ -12,83 +27,34 @@
     width: 100vw;
 }
 
-#remote-video-section {
+#video-section {
     flex: 2 150px;
 }
 
-#remote-video-container {
+#video-grid {
+    width: 100%;
+    height: 100%;
+    background-color: var(--d4);
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#video-grid>div {
+    height: auto;
+    width: 50%;
+    /* border: 2px solid white; */
+}
+
+#video-grid>div>video {
+    object-fit: cover;
     width: 100%;
     height: 100%;
-    background-color: #1e2029;
-}
-
-#controls {
-    flex: 1;
-    background-color: #191b22;
-}
-
-#controls-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-}
-
-#participants {
-    flex: 4;
-    width: 100%;
-    height: 100px;
-    background-color: #1e2029;
-}
-
-#local-video {
-    flex: 1;
-    width: 100%;
-    height: 100%;
-    background-color: #191b22;
-}
-
-#local-video-controls {
-    flex-basis: 50px;
-    width: 100%;
-    height: 100%;
-}
-
-.control-button {
-    padding: 20px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    border: none;
-    border-radius: 5px;
-    background-color: transparent;
-    transition: 0.3s ease;
-}
-
-.control-button:hover {
-    transition: 0.3s ease;
-    background-color: teal;
-}
-
-#button-group {
-    display: inline-block;
-    margin: auto;
-    display: table;
-}
-
-#microphone-button {
-    background-image: url('../img/unmute.png');
-    margin-right: 20px;
-}
-
-#camera-button {
-    background-image: url('../img/camera-on.png');
 }
 
 #chat-section {
-    background-color: #272b36;
-    flex-basis: 400px;
+    background-color: var(--d1);
+    flex-basis: 320px;
 }
 
 #chat-container {
@@ -109,25 +75,34 @@
 
 #chat-controls>form>input {
     padding: 10px;
-    width: 300px;
+    width: 225px;
     border-radius: 5px;
-    border: 0;
-    background-color: #f1f2f5;
+    border: transparent;
+    background-color: var(--l1);
+}
+
+#chat-controls>form>input:focus {
+    padding: 10px;
+    width: 225px;
+    border-radius: 5px;
+    border: transparent;
+    outline-offset: 0;
+    outline: none;
+    background-color: var(--l1);
 }
 
 #chat-controls>form>button {
-    padding: 10px 19px;
+    padding: 8px 18px;
     border-radius: 5px;
-    border: 0;
-    background-color: #a4a9bd;
+    border-color: transparent;
+    background-color: var(--l4);
     transition: 0.3s ease;
+    color: var(--l1);
 }
 
 #chat-controls>form>button:hover {
-    background-color: #191b22;
-    color: #a4a9bd;
+    background-color: var(--n);
     transition: 0.3s ease;
-
 }
 
 #chat-panel {
@@ -150,12 +125,12 @@
 }
 
 .my-message-li {
-    background-color: #f1f2f5;
+    background-color: var(--l1);
     align-self: flex-end;
 }
 
 .peer-message-li {
-    background-color: #a4a9bd;
+    background-color: var(--l3);
     font-display: block;
     align-self: flex-start;
 }
@@ -165,21 +140,42 @@
     text-align: right;
 }
 
+#video-buttons {
+    bottom: 60px;
+    position: relative;
+}
+
+#video-buttons div {
+    margin-left: auto;
+    text-align: center;
+}
+
+.video-button {
+    padding: 20px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: var(--l4);
+    border-color: transparent;
+    border-radius: 5px;
+    transition: 0.3s ease;
+}
+
+.video-button:hover {
+    background-color: var(--n);
+    transition: 0.3s ease;
+}
+
+#microphone-button {
+    background-image: url("../img/unmute.png");
+}
+
+#camera-button {
+    background-image: url("../img/camera-on.png");
+}
+
 @media only screen and (max-width: 1025px) {
     #chat-section {
         display: none;
-    }
-
-    #controls {
-        flex: 2;
-    }
-
-    #microphone-button {
-        margin-right: 10px;
-    }
-
-    #camera-button {
-        margin-right: 10px;
     }
 }
 
@@ -190,17 +186,17 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px #16213E;
+    box-shadow: inset 0 0 5px var(--d1);
     border-radius: 10px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #8BBCCC;
+    background: var(--l4);
     border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #8bbccc9f;
+    background: var(--l1);
 }

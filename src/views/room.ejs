@@ -7,27 +7,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/adapter.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js" defer></script>
+    <script src="/socket.io/socket.io.js" defer></script>
+    <script>
+        const ROOM_ID = "<%= roomId %>"
+    </script>
 </head>
 
 <body>
     <main id="container">
-        <div id="remote-video-section">
-            <div id="remote-video-container">
-            </div>
-        </div>
-        <div id="controls">
-            <div id="controls-container">
-                <div id="participants"></div>
-                <div id="local-video">
-                    <video autoplay muted></video>
+        <div id="video-section">
+            <div id="video-grid">
+                <div>
+                    <video muted autoplay>
+                    </video>
                 </div>
-                <div id="local-video-controls">
-                    <div id="button-group">
-                        <button id="microphone-button" class="control-button">
-                        </button>
-                        <button id="camera-button" class="control-button"></button>
+                <div>
+                    <video muted autoplay>
+                    </video>
+                </div>
+                <div id="local-video">
+                    <video muted autoplay>
+                    </video>
+                    <div id="video-buttons">
+                        <div>
+                            <button id="microphone-button" class="video-button"></button>
+                            <button id="camera-button" class="video-button"></button>
+                            <button id="chat-button" class="video-button"></button>
+                            <button id="participants-button" class="video-button"></button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -40,7 +48,7 @@
                 </div>
                 <div id="chat-controls">
                     <form>
-                        <input type="text" id="message-input" placeholder="Type your message here.">
+                        <input type="text" id="message-input" placeholder="Type your message here." autocomplete="off">
                         <button type="submit">></button>
                     </form>
                 </div>
@@ -48,9 +56,9 @@
         </div>
     </main>
 </body>
-<script src="js/room.js"></script>
-<script src="js/chat.js"></script>
-<script src="js/video.js"></script>
-<script src="js/control.js"></script>
+<script src="js/signal.js" defer></script>
+<script src="js/chat.js" defer></script>
+<script src="js/mediaStream.js" defer></script>
+<script src="js/video.js" defer></script>
 
 </html>
