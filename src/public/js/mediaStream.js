@@ -1,54 +1,40 @@
-var combinedStream
-var audioStream
-var videoStream
-const video = document.querySelector('#local-video > video')
-video.height = 160
-video.width = 320
+var audioStream = null
+var videoStream = null
+var localStream = null
+const localVideo = document.querySelector('#local-video > video')
 
-const constraintsVideo = {
-    audio: false,
-    video: {
-        width: video.width,
-        height: video.height
-    }
-}
-const constraintsAudio = {
-    audio: true,
-    video: false
+const initialize = async (cam, mic) => {
+    localStream = new MediaStream()
+    if (cam) await turnOnCamera()
+    else await turnOffCamera()
+    if (mic) await turnOnMicrophone()
+    else await turnOffMicrophone()
+    localVideo.srcObject = localStream
 }
 
-const createVideoMedia = async () => await navigator.mediaDevices.getUserMedia(constraintsVideo)
-const createAudioMedia = async () => await navigator.mediaDevices.getUserMedia(constraintsAudio)
+const createVideoMedia = async () => await navigator.mediaDevices.getUserMedia({ audio: false, video: true })
+const createAudioMedia = async () => await navigator.mediaDevices.getUserMedia({ audio: true, video: false })
 
-const initialize = async () => {
-    audioStream = await createAudioMedia()
+const addVideoTracks = async () => {
     videoStream = await createVideoMedia()
-    combinedStream = new MediaStream([...videoStream.getVideoTracks(), ...audioStream.getAudioTracks()])
-    video.srcObject = combinedStream
+    videoStream.getTracks().forEach(async t => localStream.addTrack(t))
 }
 
-initialize()
-
-const turnOnCamera = async () => {
-    videoStream = await createVideoMedia()
-    videoStream.getTracks().forEach(async (el) => { await combinedStream.addTrack(el) })
-}
-
-const turnOffCamera = async () => {
-    combinedStream.getVideoTracks().forEach(async (e) => {
-        await e.stop()
-        await combinedStream.removeTrack(e)
+const removeVideoTracks = async () => {
+    localStream.getVideoTracks().forEach(async t => {
+        t.stop()
+        localStream.removeTrack(t)
     })
 }
 
-const turnOnMicrophone = async () => {
+const addAudioTracks = async () => {
     audioStream = await createAudioMedia()
-    audioStream.getTracks().forEach(el => { combinedStream.addTrack(el) })
+    audioStream.getTracks().forEach(t => localStream.addTrack(t))
 }
 
-const turnOffMicrophone = async () => {
-    combinedStream.getAudioTracks().forEach(e => {
-        e.stop()
-        combinedStream.removeTrack(e)
+const removeAudioTracks = async () => {
+    localStream.getAudioTracks().forEach(t => {
+        t.stop()
+        localStream.removeTrack(t)
     })
 }

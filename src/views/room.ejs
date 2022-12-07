@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://webrtc.github.io/adapter/adapter-latest.js" defer></script>
-    <script src="/socket.io/socket.io.js" defer></script>
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
     <script>
         const ROOM_ID = "<%= roomId %>"
     </script>
@@ -18,14 +18,6 @@
     <main id="container">
         <div id="video-section">
             <div id="video-grid">
-                <div>
-                    <video muted autoplay>
-                    </video>
-                </div>
-                <div>
-                    <video muted autoplay>
-                    </video>
-                </div>
                 <div id="local-video">
                     <video muted autoplay>
                     </video>
@@ -56,9 +48,10 @@
         </div>
     </main>
 </body>
-<script src="js/signal.js" defer></script>
-<script src="js/chat.js" defer></script>
-<script src="js/mediaStream.js" defer></script>
-<script src="js/video.js" defer></script>
+<script src="js/mediaStream.js"></script>
+<script src="js/peerConnection.js"></script>
+<script src="js/chat.js"></script>
+<script src="js/videoControls.js"></script>
+<script src="js/signaling.js"></script>
 
 </html>

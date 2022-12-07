@@ -21,8 +21,8 @@ form.onsubmit = () => {
     messages.appendChild(li)
     li.setAttribute('class', "message-li my-message-li")
     messageInput.value = ''
-    Object.keys(dataChannels).forEach(k => {
-        var c = dataChannels[k]
+    Object.keys(peerConnections).forEach(k => {
+        var c = peerConnections[k].dataChannel
         c.send(message)
     })
     chatPanel.scrollTop = chatPanel.scrollHeight
