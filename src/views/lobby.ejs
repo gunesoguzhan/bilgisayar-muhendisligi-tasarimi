@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/lobby.css">
+    <title>Document</title>
+    <script>
+        const ROOM_ID = "<%= roomId %>"
+    </script>
+</head>
+
+<body>
+    <main class="main">
+        <div id="lobby-controls">
+            <div id="local-video">
+                <video autoplay muted></video>
+            </div>
+            <div id="form">
+                <form action="../room" method="post">
+                    <div id="video-controls">
+                        <div id="camera-switch" class="switch-top-div">
+                            <label class="switch">
+                                <input type="checkbox" name="cam" checked>
+                                <span class="slider round" id="camera-switch"></span>
+                            </label>
+                        </div>
+                        <div id="microphone-switch" class="switch-top-div">
+                            <label class="switch">
+                                <input type="checkbox" name="mic" checked>
+                                <span class="slider round" id="microphone"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="room-controls">
+                        <input type="hidden" name="roomId" value="<%= roomId %>">
+                        <input type="text" name="username" placeholder="Type your username here." id="username">
+                        <button id="submit">Join Room</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </main>
+</body>
+<script src="/js/mediaStream.js"></script>
+<script src="/js/lobby.js"></script>
+
+</html>

@@ -2,6 +2,13 @@ const form = document.querySelector('#chat-controls > form')
 const messageInput = document.querySelector('#chat-controls > form > input')
 const messages = document.querySelector('#chat-panel > ul')
 const chatPanel = document.querySelector('#chat-panel')
+const chatButton = document.querySelector('#chat-button')
+var isChatOn = false
+
+chatButton.addEventListener('click', () => {
+    if (isChatOn) hideChatPanel()
+    else showChatPanel()
+})
 
 form.onsubmit = () => {
     const message = messageInput.value
@@ -21,10 +28,7 @@ form.onsubmit = () => {
     messages.appendChild(li)
     li.setAttribute('class', "message-li my-message-li")
     messageInput.value = ''
-    Object.keys(peerConnections).forEach(k => {
-        var c = peerConnections[k].dataChannel
-        c.send(message)
-    })
+    peerConnections.forEach(p => p.dataChannel.send(message))
     chatPanel.scrollTop = chatPanel.scrollHeight
     return false
 }
@@ -44,4 +48,18 @@ const onMessage = (message, id) => {
     li.appendChild(messageDiv)
     messages.appendChild(li)
     chatPanel.scrollTop = chatPanel.scrollHeight
+}
+
+const hideChatPanel = () => {
+    showParticipantsPanel()
+    document.querySelector('#chat-container').style.display = 'none'
+    chatButton.style.backgroundImage = "url('../img/chat-off.png')"
+    isChatOn = false
+}
+
+const showChatPanel = () => {
+    hideParticipantsPanel()
+    document.querySelector('#chat-container').style.display = 'flex'
+    chatButton.style.backgroundImage = "url('../img/chat-on.png')"
+    isChatOn = true
 }

@@ -1,51 +1,98 @@
 const cameraButton = document.querySelector('#camera-button')
 const microphoneButton = document.querySelector('#microphone-button')
-var isCameraEnabled = true
-var isMicrophoneEnabled = true
+var isCameraEnabled = false
+var isMicrophoneEnabled = false
 
-cameraButton.addEventListener('click', async () => {
-    if (isCameraEnabled) await turnOffCamera()
-    else await turnOnCamera()
+cameraButton.addEventListener('click', () => {
+    if (isCameraEnabled) turnOffCamera()
+    else turnOnCamera()
 })
 
-microphoneButton.addEventListener('click', async () => {
-    if (isMicrophoneEnabled) await turnOffMicrophone()
-    else await turnOnMicrophone()
+microphoneButton.addEventListener('click', () => {
+    if (isMicrophoneEnabled) turnOffMicrophone()
+    else turnOnMicrophone()
 })
 
-const addRemoteVideo = remoteStream => {
+const initialize = async (cam, mic) => {
+    localVideo.srcObject = new MediaStream([...(await createMedia()).getTracks()])
+    if (mic == 'on') turnOnMicrophone()
+    else turnOffMicrophone()
+    if (cam == 'on') turnOnCamera()
+    else turnOffCamera()
+}
+
+const setVideoGrid = () => {
+    console.log('set video grid init')
+    const activeVideos = document.querySelectorAll('.active-video')
+    if (activeVideos.length == 1)
+        activeVideos[0].className = 'active-video video-single'
+    else if (activeVideos.length == 2)
+        for (var i = 0; i < 2; i++)
+            activeVideos[i].className = `active-video video-double-${i}`
+    else if (activeVideos.length == 3)
+        for (var i = 0; i < 3; i++)
+            activeVideos[i].className = `active-video video-triple-${i}`
+    else if (activeVideos.length == 4)
+        for (var i = 0; i < 4; i++)
+            activeVideos[i].className = `active-video video-quadriple-${i}`
+}
+
+const addRemoteVideo = (remoteStream, remoteClientId) => {
+    const videoGrid = document.querySelector('#video-grid')
     const div = document.createElement('div')
-    div.setAttribute('class', 'remote-video')
+    div.setAttribute('id', remoteClientId)
+    div.setAttribute('class', 'active-video')
     const video = document.createElement('video')
-    video.muted = true
     video.srcObject = remoteStream
     video.autoplay = true
     div.appendChild(video)
-    const videoGrid = document.querySelector('#video-grid')
-    videoGrid.appendChild(div)
+    videoGrid.prepend(div)
+    setVideoGrid()
 }
 
-const turnOnCamera = async () => {
+const removeRemoteVideo = remoteClientId => {
+    document.getElementById(remoteClientId).remove()
+    setVideoGrid()
+}
+
+const turnOnCamera = () => {
     isCameraEnabled = true
     cameraButton.style.backgroundImage = "url('../img/camera-on.png')"
-    await addVideoTracks()
+    enableVideoTracks()
+    socket.emit('camera-turned-on')
 }
 
-const turnOffCamera = async () => {
+const turnOffCamera = () => {
     isCameraEnabled = false
     cameraButton.style.backgroundImage = "url('../img/camera-off.png')"
-    await removeVideoTracks()
+    disableVideoTracks()
+    socket.emit('camera-turned-off')
 }
 
-const turnOnMicrophone = async () => {
+const turnOnMicrophone = () => {
     isMicrophoneEnabled = true
     microphoneButton.style.backgroundImage = "url('../img/unmute.png')"
-    await addAudioTracks()
-
+    enableAudioTracks()
+    socket.emit('microphone-turned-on')
 }
 
-const turnOffMicrophone = async () => {
+const turnOffMicrophone = () => {
     isMicrophoneEnabled = false
     microphoneButton.style.backgroundImage = "url('../img/mute.png')"
-    await removeAudioTracks()
+    disableAudioTracks()
+    socket.emit('microphone-turned-off')
+}
+
+const showVideo = remoteClientId => {
+    const e = document.getElementById(remoteClientId)
+    e.classList.remove('hidden-video')
+    e.classList.add('active-video')
+    setVideoGrid()
+}
+
+const hideVideo = remoteClientId => {
+    const e = document.getElementById(remoteClientId)
+    e.classList.remove('active-video')
+    e.classList.add('hidden-video')
+    setVideoGrid()
 }

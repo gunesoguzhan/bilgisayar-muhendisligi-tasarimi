@@ -5,35 +5,44 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/room.css">
     <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <title>Meeting Room</title>
     <script>
         const ROOM_ID = "<%= roomId %>"
+        const USERNAME = "<%= username %>"
+        const MIC = "<%= mic %>"
+        const CAM = "<%= cam %>"
     </script>
 </head>
 
 <body>
-    <main id="container">
-        <div id="video-section">
+    <main class="container">
+        <div id="left-panel">
             <div id="video-grid">
-                <div id="local-video">
+                <div id="local-video" class="active-video video-single">
                     <video muted autoplay>
                     </video>
-                    <div id="video-buttons">
-                        <div>
-                            <button id="microphone-button" class="video-button"></button>
-                            <button id="camera-button" class="video-button"></button>
-                            <button id="chat-button" class="video-button"></button>
-                            <button id="participants-button" class="video-button"></button>
-                        </div>
-                    </div>
+                </div>
+            </div>
+            <div id="video-buttons">
+                <div>
+                    <button id="microphone-button" class="video-button"></button>
+                    <button id="camera-button" class="video-button"></button>
+                    <button id="chat-button" class="video-button"></button>
+                    <button id="participants-button" class="video-button"></button>
                 </div>
             </div>
         </div>
-        <div id="chat-section">
-            <div id="chat-container">
+        <div id="right-panel">
+            <div id="participants-container">
+                <ul>
+                    <li>dsfasdf</li>
+                </ul>
+            </div>
+            <div id="chat-container" class="hidden">
                 <div id="chat-panel">
                     <ul>
                     </ul>
@@ -48,10 +57,11 @@
         </div>
     </main>
 </body>
-<script src="js/mediaStream.js"></script>
-<script src="js/peerConnection.js"></script>
-<script src="js/chat.js"></script>
-<script src="js/videoControls.js"></script>
-<script src="js/signaling.js"></script>
+<script src="/js/mediaStream.js"></script>
+<script src="/js/videoControls.js"></script>
+<script src="/js/peerConnection.js"></script>
+<script src="/js/participants.js"></script>
+<script src="/js/chat.js"></script>
+<script src="/js/signaling.js"></script>
 
 </html>

@@ -1,5 +1,4 @@
 var peerConnections = []
-var localClientId
 
 const iceConfiguration = {
     iceServers: [{
@@ -13,69 +12,62 @@ const iceConfiguration = {
     }]
 }
 
-const createOffer = async remoteClientId => {
+const createPeerConnection = remoteClientId => {
     const pc = new RTCPeerConnection()
-    peerConnections[remoteClientId] = pc
+    pc.remoteClientId = remoteClientId
+    peerConnections.push(pc)
+    var flag = false
+    pc.ontrack = e => {
+        if (flag)
+            return
+        const rs = new MediaStream()
+        e.streams[0].getTracks().forEach(t => rs.addTrack(t))
+        flag = true
+        addRemoteVideo(rs, remoteClientId)
+    }
+    localVideo.srcObject.getTracks().forEach(t => pc.addTrack(t, localVideo.srcObject))
+    return pc
+}
+
+const createOffer = async pc => {
+    pc.dataChannel = pc.createDataChannel('channel')
+    pc.dataChannel.onopen = e => console.log('Connection opened.')
+    pc.dataChannel.onmessage = e => onMessage(e.data, pc.remoteClientId)
     var flag = true
     pc.onicecandidate = e => {
         if (flag) {
-            socket.emit('create-answer', pc.localDescription, remoteClientId)
+            console.log('ice candidate')
+            socket.emit('create-answer', pc.localDescription, pc.remoteClientId)
             flag = false
         }
     }
-    localStream.getTracks().forEach(t => pc.addTrack(t, localStream))
-    var flag2 = true
-    pc.ontrack = e => {
-        if (flag2) {
-            const rs = new MediaStream()
-            e.streams[0].getTracks().forEach(t => rs.addTrack(t))
-            addRemoteVideo(rs)
-            flag2 = false
-        }
-    }
-    const dc = pc.createDataChannel('channel')
-    peerConnections[remoteClientId].dataChannel = dc
-    dc.onopen = e => console.log('Connection opened.')
-    dc.onmessage = e => onMessage(e.data, remoteClientId)
     const offer = await pc.createOffer()
     await pc.setLocalDescription(offer)
     console.log('Offer created.')
+    return offer
 }
 
-const createAnswer = async (offer, remoteClientId) => {
-    const pc = new RTCPeerConnection()
-    peerConnections[remoteClientId] = pc
-    var flag1 = true
-    pc.onicecandidate = e => {
-        if (flag1) {
-            socket.emit('set-answer', pc.localDescription, remoteClientId)
-            flag1 = false
-        }
-    }
-    localStream.getTracks().forEach(t => pc.addTrack(t, localStream))
+const createAnswer = async (pc, offer) => {
     pc.ondatachannel = e => {
-        const dc = e.channel
-        peerConnections[remoteClientId].dataChannel = dc
-        dc.onopen = x => console.log('Connection opened.')
-        dc.onmessage = x => onMessage(x.data, remoteClientId)
+        pc.dataChannel = e.channel
+        pc.dataChannel.onopen = x => console.log('Connection opened.')
+        pc.dataChannel.onmessage = x => onMessage(x.data, pc.remoteClientId)
     }
-    var flag2 = true
-    pc.ontrack = e => {
-        if (flag2) {
-            const rs = new MediaStream()
-            e.streams[0].getTracks().forEach(t => rs.addTrack(t))
-            addRemoteVideo(rs)
-            flag2 = false
+    var flag = true
+    pc.onicecandidate = e => {
+        if (flag) {
+            socket.emit('set-answer', pc.localDescription, pc.remoteClientId)
+            flag = false
         }
     }
     await pc.setRemoteDescription(offer)
     const answer = pc.createAnswer()
     await pc.setLocalDescription(answer)
     console.log('Answer created.')
+    return answer
 }
 
-const setAnswer = async (answer, remoteClientId) => {
-    const pc = peerConnections[remoteClientId]
+const setAnswer = async (pc, answer) => {
     await pc.setRemoteDescription(answer)
     console.log('Answer set.')
 }
