@@ -22,7 +22,6 @@ const initialize = async (cam, mic) => {
 }
 
 const setVideoGrid = () => {
-    console.log('set video grid init')
     const activeVideos = document.querySelectorAll('.active-video')
     if (activeVideos.length == 1)
         activeVideos[0].className = 'active-video video-single'

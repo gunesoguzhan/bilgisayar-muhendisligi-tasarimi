@@ -32,11 +32,10 @@ const createPeerConnection = remoteClientId => {
 const createOffer = async pc => {
     pc.dataChannel = pc.createDataChannel('channel')
     pc.dataChannel.onopen = e => console.log('Connection opened.')
-    pc.dataChannel.onmessage = e => onMessage(e.data, pc.remoteClientId)
+    pc.dataChannel.onmessage = e => onMessage(e.data)
     var flag = true
     pc.onicecandidate = e => {
         if (flag) {
-            console.log('ice candidate')
             socket.emit('create-answer', pc.localDescription, pc.remoteClientId)
             flag = false
         }
@@ -51,7 +50,7 @@ const createAnswer = async (pc, offer) => {
     pc.ondatachannel = e => {
         pc.dataChannel = e.channel
         pc.dataChannel.onopen = x => console.log('Connection opened.')
-        pc.dataChannel.onmessage = x => onMessage(x.data, pc.remoteClientId)
+        pc.dataChannel.onmessage = x => onMessage(x.data)
     }
     var flag = true
     pc.onicecandidate = e => {

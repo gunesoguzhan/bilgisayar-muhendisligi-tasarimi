@@ -11,43 +11,40 @@ chatButton.addEventListener('click', () => {
 })
 
 form.onsubmit = () => {
-    const message = messageInput.value
-    if (!message || message.replace(/\s/g, '').length < 1)
+    if (!messageInput.value || messageInput.value.replace(/\s/g, '').length < 1)
         return false
-    var li = document.createElement('li')
-    var messageDiv = document.createElement('div')
-    var detailsP = document.createElement('p')
-    detailsP.setAttribute('class', 'message-details-p')
-    var currentDate = new Date()
-    detailsP.textContent = 'You ' + ('0' + currentDate.getHours()).slice(-2) + ':' + ('0' + currentDate.getMinutes()).slice(-2)
-    var messageP = document.createElement('p')
-    messageP.textContent = message
-    messageDiv.appendChild(messageP)
-    messageDiv.appendChild(detailsP)
-    li.appendChild(messageDiv)
-    messages.appendChild(li)
-    li.setAttribute('class', "message-li my-message-li")
-    messageInput.value = ''
-    peerConnections.forEach(p => p.dataChannel.send(message))
-    chatPanel.scrollTop = chatPanel.scrollHeight
+    const message = {
+        username: USERNAME,
+        text: messageInput.value
+    }
+    createMessageElement(message)
+    peerConnections.forEach(p => p.dataChannel.send(JSON.stringify(message)))
     return false
 }
 
-const onMessage = (message, id) => {
+const createMessageElement = (message) => {
     var li = document.createElement('li')
-    li.setAttribute('class', "message-li peer-message-li")
+    if (message.username == USERNAME) {
+        li.setAttribute('class', "message-li my-message-li")
+        messageInput.value = ''
+    } else
+        li.setAttribute('class', "message-li peer-message-li")
     var messageDiv = document.createElement('div')
     var detailsP = document.createElement('p')
     detailsP.setAttribute('class', 'message-details-p')
     var currentDate = new Date()
-    detailsP.textContent = id + ('0' + currentDate.getHours()).slice(-2) + ':' + ('0' + currentDate.getMinutes()).slice(-2)
+    detailsP.textContent = message.username + ' ' + ('0' + currentDate.getHours()).slice(-2) + ':' + ('0' + currentDate.getMinutes()).slice(-2)
     var messageP = document.createElement('p')
-    messageP.textContent = message
+    messageP.textContent = message.text
     messageDiv.appendChild(messageP)
     messageDiv.appendChild(detailsP)
     li.appendChild(messageDiv)
     messages.appendChild(li)
     chatPanel.scrollTop = chatPanel.scrollHeight
+}
+
+const onMessage = (message) => {
+    createMessageElement(JSON.parse(message))
 }
 
 const hideChatPanel = () => {

@@ -8,10 +8,8 @@ export const get = (req, res) => {
             cam: req.cookies['cam']
         }
         res.render('room', obj)
-    }
-    else {
+    } else
         res.redirect(`/lobby/${req.params.roomId}`)
-    }
 }
 
 export const post = (req, res) => {

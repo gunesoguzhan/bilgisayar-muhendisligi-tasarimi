@@ -5,7 +5,6 @@ var isCamEnabled = true
 var isMicEnabled = true
 
 form.onsubmit = () => {
-    console.log('hello')
     const username = document.querySelector("#username")
     if (username.value == '') return false
 }
