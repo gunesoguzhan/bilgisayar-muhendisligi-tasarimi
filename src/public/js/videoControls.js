@@ -49,6 +49,20 @@ const addRemoteVideo = (remoteStream, remoteClientId) => {
     setVideoGrid()
 }
 
+const showVideo = remoteClientId => {
+    const e = document.getElementById(remoteClientId)
+    e.classList.remove('hidden-video')
+    e.classList.add('active-video')
+    setVideoGrid()
+}
+
+const hideVideo = remoteClientId => {
+    const e = document.getElementById(remoteClientId)
+    e.classList.remove('active-video')
+    e.classList.add('hidden-video')
+    setVideoGrid()
+}
+
 const removeRemoteVideo = remoteClientId => {
     document.getElementById(remoteClientId).remove()
     setVideoGrid()
@@ -72,26 +86,10 @@ const turnOnMicrophone = () => {
     isMicrophoneEnabled = true
     microphoneButton.style.backgroundImage = "url('../img/unmute.png')"
     enableAudioTracks()
-    socket.emit('microphone-turned-on')
 }
 
 const turnOffMicrophone = () => {
     isMicrophoneEnabled = false
     microphoneButton.style.backgroundImage = "url('../img/mute.png')"
     disableAudioTracks()
-    socket.emit('microphone-turned-off')
-}
-
-const showVideo = remoteClientId => {
-    const e = document.getElementById(remoteClientId)
-    e.classList.remove('hidden-video')
-    e.classList.add('active-video')
-    setVideoGrid()
-}
-
-const hideVideo = remoteClientId => {
-    const e = document.getElementById(remoteClientId)
-    e.classList.remove('active-video')
-    e.classList.add('hidden-video')
-    setVideoGrid()
 }

@@ -1,7 +1,7 @@
 {
-  "name": "webrtc",
+  "name": "Video Conference Application",
   "version": "1.0.0",
-  "description": "",
+  "description": "Video conference application developed using WebRTC, Node.js, Socket.io",
   "main": "index.js",
   "type": "module",
   "scripts": {

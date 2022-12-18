@@ -15,52 +15,59 @@
         const USERNAME = "<%= username %>"
         const MIC = "<%= mic %>"
         const CAM = "<%= cam %>"
+        var USERID
     </script>
 </head>
 
 <body>
-    <main class="container">
+    <main class="container-row pw-ph-inner-height">
         <div id="left-panel">
-            <div id="video-grid">
-                <div id="local-video" class="active-video video-single">
-                    <video muted autoplay>
-                    </video>
+            <div class="container-column pw-ph-100">
+                <div id="video-panel">
+                    <div id="video-grid">
+                        <div id="local-video" class="active-video video-single">
+                            <video muted autoplay>
+                            </video>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div id="video-buttons">
-                <div>
-                    <button id="microphone-button" class="video-button"></button>
-                    <button id="camera-button" class="video-button"></button>
-                    <button id="chat-button" class="video-button"></button>
-                    <button id="participants-button" class="video-button"></button>
+                <div id="video-buttons">
+                    <div>
+                        <button id="microphone-button" class="video-button"></button>
+                        <button id="camera-button" class="video-button"></button>
+                        <button id="chat-button" class="video-button"></button>
+                    </div>
                 </div>
             </div>
         </div>
         <div id="right-panel">
-            <div id="participants-container">
-                <ul>
-                    <li>dsfasdf</li>
-                </ul>
-            </div>
-            <div id="chat-container" class="hidden">
+            <div class="container-column pw-ph-100">
+                <div id="chat-header" class="container-row">
+                    <div id="close-chat">
+                        <button class="chat-button pw-ph-100">X</button>
+                    </div>
+                    <div id="public-chat">
+                        <h4>Public Chat</h4>
+                    </div>
+                </div>
                 <div id="chat-panel">
-                    <ul>
+                    <ul class="container-column">
                     </ul>
                 </div>
                 <div id="chat-controls">
                     <form>
                         <input type="text" id="message-input" placeholder="Type your message here." autocomplete="off">
-                        <button type="submit">></button>
+                        <button type="submit" class="chat-button">></button>
                     </form>
                 </div>
             </div>
         </div>
     </main>
 </body>
+<script src="/js/site.js"></script>
 <script src="/js/mediaStream.js"></script>
 <script src="/js/videoControls.js"></script>
 <script src="/js/peerConnection.js"></script>
-<script src="/js/participants.js"></script>
 <script src="/js/chat.js"></script>
 <script src="/js/signaling.js"></script>
 

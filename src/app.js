@@ -34,7 +34,6 @@ io.on('connection', socket => {
                 io.sockets.adapter.rooms.get(roomId).forEach(x => {
                     if (x != socket.id) {
                         socket.emit('create-offer', x)
-                        console.log(x)
                         console.log(`User ${socket.id} offered to user ${x}`)
                     }
                 })
@@ -55,12 +54,6 @@ io.on('connection', socket => {
         })
         socket.on('camera-turned-off', () => {
             socket.broadcast.to(roomId).emit('camera-turned-off', socket.id)
-        })
-        socket.on('microphone-turned-on', () => {
-            socket.broadcast.to(roomId).emit('microphone-turned-on', socket.id)
-        })
-        socket.on('microphone-turned-off', () => {
-            socket.broadcast.to(roomId).emit('icrophone-turned-off', socket.id)
         })
         socket.on('disconnect', () => {
             socket.leave(roomId)

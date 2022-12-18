@@ -1,7 +1,5 @@
 .main {
     background-color: var(--d3);
-    width: 100vw;
-    height: 100vh;
     text-align: center;
     overflow-y: auto;
 }

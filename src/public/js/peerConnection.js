@@ -15,15 +15,13 @@ const iceConfiguration = {
 const createPeerConnection = remoteClientId => {
     const pc = new RTCPeerConnection()
     pc.remoteClientId = remoteClientId
-    peerConnections.push(pc)
+    peerConnections[remoteClientId] = pc
     var flag = false
     pc.ontrack = e => {
         if (flag)
             return
-        const rs = new MediaStream()
-        e.streams[0].getTracks().forEach(t => rs.addTrack(t))
         flag = true
-        addRemoteVideo(rs, remoteClientId)
+        addRemoteVideo(e.streams[0], remoteClientId)
     }
     localVideo.srcObject.getTracks().forEach(t => pc.addTrack(t, localVideo.srcObject))
     return pc

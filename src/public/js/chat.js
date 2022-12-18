@@ -3,31 +3,38 @@ const messageInput = document.querySelector('#chat-controls > form > input')
 const messages = document.querySelector('#chat-panel > ul')
 const chatPanel = document.querySelector('#chat-panel')
 const chatButton = document.querySelector('#chat-button')
-var isChatOn = false
+const closeChatButton = document.querySelector("#close-chat > button")
+var isChatOpen = false
 
 chatButton.addEventListener('click', () => {
-    if (isChatOn) hideChatPanel()
-    else showChatPanel()
+    showChatPanel()
+})
+
+closeChatButton.addEventListener('click', () => {
+    hideChatPanel()
 })
 
 form.onsubmit = () => {
     if (!messageInput.value || messageInput.value.replace(/\s/g, '').length < 1)
         return false
     const message = {
+        userId: USERID,
         username: USERNAME,
         text: messageInput.value
     }
+    messageInput.value = ''
     createMessageElement(message)
-    peerConnections.forEach(p => p.dataChannel.send(JSON.stringify(message)))
+    Object.keys(peerConnections).forEach(k => {
+        peerConnections[k].dataChannel.send(JSON.stringify(message))
+    })
     return false
 }
 
 const createMessageElement = (message) => {
     var li = document.createElement('li')
-    if (message.username == USERNAME) {
+    if (message.userId == USERID)
         li.setAttribute('class', "message-li my-message-li")
-        messageInput.value = ''
-    } else
+    else
         li.setAttribute('class', "message-li peer-message-li")
     var messageDiv = document.createElement('div')
     var detailsP = document.createElement('p')
@@ -48,15 +55,27 @@ const onMessage = (message) => {
 }
 
 const hideChatPanel = () => {
-    showParticipantsPanel()
-    document.querySelector('#chat-container').style.display = 'none'
-    chatButton.style.backgroundImage = "url('../img/chat-off.png')"
-    isChatOn = false
+    document.querySelector('#right-panel').style.flex = '0'
+    document.querySelector('#left-panel').style.flex = '1'
+    isChatOpen = false
 }
 
 const showChatPanel = () => {
-    hideParticipantsPanel()
-    document.querySelector('#chat-container').style.display = 'flex'
-    chatButton.style.backgroundImage = "url('../img/chat-on.png')"
-    isChatOn = true
+    document.querySelector('#right-panel').style.flex = '1'
+    document.querySelector('#left-panel').style.flex = '0'
+    isChatOpen = true
 }
+
+const resetChatPanel = () => {
+    hideChatPanel()
+    document.querySelector('#right-panel').style.flexBasis = '320px'
+}
+
+window.addEventListener('resize', () => {
+    if (window.innerWidth > 1200) {
+        resetChatPanel()
+    }
+    if (window.innerWidth <= 1200)
+        if (!isChatOpen)
+            hideChatPanel()
+})

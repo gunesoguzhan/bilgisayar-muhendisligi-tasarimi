@@ -18,6 +18,18 @@
     --l3: #9ea5b9;
     --l2: #ced2dc;
     --l1: #f0f2f4;
+    --doc-height: 100%;
+    --doc-width: 100%;
+}
+
+.pw-ph-inner-height {
+    height: var(--doc-height);
+    width: var(--doc-width);
+}
+
+.pw-ph-100 {
+    height: 100%;
+    width: 100%;
 }
 
 /* width */
