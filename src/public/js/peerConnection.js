@@ -5,10 +5,7 @@ const iceConfiguration = {
         urls: [
             'stun:stun1.l.google.com:19302',
             'stun:stun2.l.google.com:19302'
-            // 'turn:numb.viagenie.ca'
-        ],
-        // credential: 'muazkh',
-        // username: 'webrtc@live.com'
+        ]
     }]
 }
 
